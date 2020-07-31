@@ -84,6 +84,22 @@ class PetsViewController: UIViewController {
     }
 	
 	// MARK:- Actions
+    
+    @IBAction func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state != .ended {
+            return
+        }
+        let point = gestureRecognizer.location(in: collectionView)
+        if let indexPath = collectionView.indexPathForItem(at: point) {
+            let pet = fetchedRC.object(at: indexPath)
+            context.delete(pet)
+            appDelegate.saveContext()
+            refresh()
+            collectionView.deleteItems(at: [indexPath])
+        }
+    }
+    
+    
 	@IBAction func addPet() {
 		let data = PetData()
         let pet = Pet(entity: Pet.entity(), insertInto: context)

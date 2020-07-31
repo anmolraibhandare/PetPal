@@ -118,7 +118,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="0.99999994039999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstItem="UVb-UE-e3n" firstAttribute="leading" secondItem="kcF-tZ-N3P" secondAttribute="leading" constant="8" id="Bxb-Pj-DrP"/>
                                         <constraint firstItem="UVb-UE-e3n" firstAttribute="centerY" secondItem="kcF-tZ-N3P" secondAttribute="centerY" id="wk8-M9-awu"/>
@@ -244,6 +244,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="wRN-XS-gD2" id="S0A-yF-AxP"/>
                                     <outlet property="delegate" destination="wRN-XS-gD2" id="x9c-Lw-cSi"/>
+                                    <outletCollection property="gestureRecognizers" destination="VcB-D2-qmF" appends="YES" id="Fog-Xs-QMV"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -271,6 +272,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qMq-CZ-rAT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="VcB-D2-qmF">
+                    <connections>
+                        <action selector="handleLongPressWithGestureRecognizer:" destination="wRN-XS-gD2" id="vBr-21-ARE"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1502" y="143"/>
         </scene>
