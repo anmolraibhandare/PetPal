@@ -70,6 +70,7 @@ class PetsViewController: UIViewController {
         request.sortDescriptors = [sort]
         do {
             fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedRC.delegate = self
             try fetchedRC.performFetch()
         } catch let error as NSError {
             print ("Could not Fetch. \(error), \(error.userInfo)")
@@ -95,7 +96,6 @@ class PetsViewController: UIViewController {
             context.delete(pet)
             appDelegate.saveContext()
             refresh()
-            collectionView.deleteItems(at: [indexPath])
         }
     }
     
@@ -107,8 +107,7 @@ class PetsViewController: UIViewController {
         pet.kind = data.kind
         pet.dob = data.dob
         pet.owner = friend
-        refresh()
-        collectionView.reloadData()
+        appDelegate.saveContext()
 	}
 }
 
@@ -188,4 +187,27 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
 	return input.rawValue
+}
+
+
+extension PetsViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        let index = indexPath ?? (newIndexPath ?? nil )
+        guard let cellIndex = index else {
+            return
+        }
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [cellIndex])
+        case .delete:
+            collectionView.deleteItems(at: [cellIndex])
+        default:
+            break
+        }
+    }
+    
+    
+    
 }
